@@ -220,7 +220,7 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
 
             SecurityContextHolder.getContext().setAuthentication(authentication);
             chain.doFilter(request, response);
-            //} else {   //lo quitamos por que se implemnta el try catch par el token jwt
+            //} else {   //lo quitamos por que se implementa el try catch par el token jwt
         } catch (JwtException e) {
             //el token no es igual ala palabra secreta
             Map<String, String> body = new HashMap<>();
@@ -228,6 +228,8 @@ public class JwtValidationFilter extends BasicAuthenticationFilter {
             body.put("message", "El token JWT no es valido");
 
             response.getWriter().write(new ObjectMapper().writeValueAsString(body));
+            //ponemos 401 cuando hay error en la validacion del token o se termina la sesion
+            //el token ya no es igual
             response.setStatus(401); //no Autorizado
             response.setContentType("application/json");
 
